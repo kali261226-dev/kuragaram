@@ -1,0 +1,220 @@
+<!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#fff;color:#000}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
+<title>Kuragaram Sign In</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,600;9..144,700&family=Manrope:wght@400;500;600;700&display=swap">
+<style>
+/* Layout: centered card on a deep gradient field, like a focused single-purpose sign-in. */
+:root{
+  --bg-1:#0e1b2b;
+  --bg-2:#162a40;
+  --card:#ffffff;
+  --card-line:#e4e1d8;
+  --fg:#1b1f27;
+  --muted:#6b7280;
+  --accent:#c6793f;
+  --accent-ink:#2a1708;
+  --danger:#b3432f;
+  --ok:#2f7a52;
+  --display:"Fraunces","Georgia",serif;
+  --body:"Manrope",system-ui,sans-serif;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --card:#1b2330; --card-line:#303c4d; --fg:#eef1f5; --muted:#9aa5b3;
+    --accent:#e0985f; --accent-ink:#201003; --danger:#ef6a52; --ok:#4fb783;
+    color-scheme:dark;
+  }
+}
+:root[data-theme="dark"]{
+  --card:#1b2330; --card-line:#303c4d; --fg:#eef1f5; --muted:#9aa5b3;
+  --accent:#e0985f; --accent-ink:#201003; --danger:#ef6a52; --ok:#4fb783;
+  color-scheme:dark;
+}
+html,body{height:100%;}
+body{
+  background:radial-gradient(1200px 700px at 50% -10%,var(--bg-2),var(--bg-1) 70%);
+  color:var(--fg);font-family:var(--body);
+  padding-left:max(16px,env(safe-area-inset-left,0px));
+  padding-right:max(16px,env(safe-area-inset-right,0px));
+  padding-block:32px;
+  display:flex;align-items:center;justify-content:center;
+}
+.wrap{width:100%;max-width:400px;display:flex;flex-direction:column;gap:18px;}
+.mark{display:flex;flex-direction:column;align-items:center;gap:6px;color:#f4ede2;}
+.mark .glyph{
+  width:44px;height:44px;border-radius:12px;background:linear-gradient(145deg,var(--accent),#8a4f26);
+  display:flex;align-items:center;justify-content:center;font:700 20px var(--display);color:var(--accent-ink);
+}
+.mark h1{margin:0;font:600 22px var(--display);letter-spacing:.01em;}
+.mark p{margin:0;color:#b9c2cf;font-size:13px;}
+.card{
+  background:var(--card);border:1px solid var(--card-line);border-radius:16px;
+  padding:26px 22px;box-shadow:0 20px 50px rgba(0,0,0,.25);
+  display:flex;flex-direction:column;gap:16px;min-width:0;
+}
+.field{display:flex;flex-direction:column;gap:6px;min-width:0;}
+.field label{font-size:12.5px;font-weight:600;color:var(--muted);letter-spacing:.02em;}
+.inputwrap{position:relative;display:flex;align-items:center;}
+input{
+  width:100%;box-sizing:border-box;padding:12px 14px;border-radius:10px;border:1.5px solid var(--card-line);
+  background:transparent;color:var(--fg);font:500 16px var(--body);
+}
+input:focus-visible{outline:2px solid var(--accent);outline-offset:1px;border-color:var(--accent);}
+.toggle{
+  position:absolute;right:6px;background:none;border:0;color:var(--muted);font:600 12px var(--body);
+  padding:6px 8px;border-radius:6px;
+}
+.toggle:focus-visible{outline:2px solid var(--accent);}
+.row{display:flex;align-items:center;justify-content:space-between;gap:10px;font-size:13px;color:var(--muted);}
+.row label{display:flex;align-items:center;gap:7px;}
+input[type=checkbox]{width:17px;height:17px;accent-color:var(--accent);}
+.err{display:none;color:var(--danger);font-size:13px;background:color-mix(in srgb,var(--danger) 12%,transparent);border:1px solid color-mix(in srgb,var(--danger) 35%,transparent);border-radius:8px;padding:9px 11px;}
+.err.show{display:block;}
+.submit{
+  padding:13px;border-radius:10px;border:0;background:var(--accent);color:var(--accent-ink);
+  font:700 15.5px var(--body);letter-spacing:.01em;
+}
+.submit:active{filter:brightness(.95);}
+.note{margin:0;color:var(--muted);font-size:12px;line-height:1.5;text-align:center;}
+.stored{
+  background:var(--card);border:1px solid var(--card-line);border-radius:14px;padding:16px 18px;
+  display:none;flex-direction:column;gap:10px;
+}
+.stored.show{display:flex;}
+.stored h2{margin:0;font:600 13px var(--body);letter-spacing:.08em;text-transform:uppercase;color:var(--muted);}
+.stored .line{display:flex;justify-content:space-between;gap:10px;font-size:14px;min-width:0;}
+.stored .line b{font-weight:600;}
+.stored .val{color:var(--muted);font-variant-numeric:tabular-nums;overflow-wrap:anywhere;text-align:right;}
+.clear{
+  align-self:flex-start;background:none;border:0;color:var(--danger);font:600 12.5px var(--body);padding:4px 0;
+}
+.clear:focus-visible,.submit:focus-visible{outline:2px solid #fff;outline-offset:2px;}
+.tabs{display:flex;gap:6px;background:color-mix(in srgb,var(--card-line) 50%,transparent);padding:4px;border-radius:10px;}
+.tab{flex:1;padding:9px;border:0;border-radius:7px;background:transparent;color:var(--muted);font:600 13.5px var(--body);}
+.tab[aria-selected="true"]{background:var(--card);color:var(--fg);box-shadow:0 1px 3px rgba(0,0,0,.12);}
+.submit[disabled]{opacity:.6;}
+.okmsg{display:none;color:var(--ok);font-size:13px;background:color-mix(in srgb,var(--ok) 12%,transparent);border:1px solid color-mix(in srgb,var(--ok) 35%,transparent);border-radius:8px;padding:9px 11px;}
+.okmsg.show{display:block;}
+.note{margin:0;color:var(--muted);font-size:12px;line-height:1.5;text-align:center;}
+</style>
+
+<div class="wrap">
+  <div class="mark">
+    <div class="glyph">K</div>
+    <h1>Kuragaram</h1>
+    <p>Sign in to your account</p>
+  </div>
+
+  <form class="card" id="loginForm" novalidate>
+    <div class="tabs" role="tablist">
+      <button type="button" class="tab" id="tabSignin" role="tab" aria-selected="true">Sign in</button>
+      <button type="button" class="tab" id="tabSignup" role="tab" aria-selected="false">Sign up</button>
+    </div>
+    <p class="err" id="formErr"></p>
+    <p class="okmsg" id="formOk"></p>
+    <div class="field" id="nameField" hidden>
+      <label for="name">Display name</label>
+      <input id="name" name="name" autocomplete="name">
+    </div>
+    <div class="field">
+      <label for="user">Email</label>
+      <input id="user" name="user" type="email" autocomplete="username" required>
+    </div>
+    <div class="field">
+      <label for="pass">Password</label>
+      <div class="inputwrap">
+        <input id="pass" name="pass" type="password" autocomplete="current-password" required>
+        <button type="button" class="toggle" id="togglePass" aria-pressed="false">Show</button>
+      </div>
+    </div>
+    <button type="submit" class="submit" id="submitBtn">Sign in</button>
+    <p class="note">Accounts are real Supabase accounts. Passwords are never visible to the app owner — only who has signed up and when.</p>
+  </form>
+
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.js"></script>
+<script>
+(function(){
+  "use strict";
+  var SUPABASE_URL = "https://pomjhxhptptyyzzhzdur.supabase.co";
+  var SUPABASE_KEY = "sb_publishable_uzVOD3-I3cZpT5BkOqyOpQ_TFOIk2fN";
+  var client = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+
+  var form = document.getElementById("loginForm");
+  var nameField = document.getElementById("nameField");
+  var nameEl = document.getElementById("name");
+  var userEl = document.getElementById("user");
+  var passEl = document.getElementById("pass");
+  var errEl = document.getElementById("formErr");
+  var okEl = document.getElementById("formOk");
+  var toggleBtn = document.getElementById("togglePass");
+  var submitBtn = document.getElementById("submitBtn");
+  var tabSignin = document.getElementById("tabSignin");
+  var tabSignup = document.getElementById("tabSignup");
+  var mode = "signin";
+
+  function showError(msg){ errEl.textContent = msg; errEl.classList.add("show"); okEl.classList.remove("show"); }
+  function showOk(msg){ okEl.textContent = msg; okEl.classList.add("show"); errEl.classList.remove("show"); }
+  function clearMsgs(){ errEl.classList.remove("show"); okEl.classList.remove("show"); }
+
+  function setMode(m){
+    mode = m;
+    var signingIn = m === "signin";
+    tabSignin.setAttribute("aria-selected", String(signingIn));
+    tabSignup.setAttribute("aria-selected", String(!signingIn));
+    nameField.hidden = signingIn;
+    submitBtn.textContent = signingIn ? "Sign in" : "Create account";
+    clearMsgs();
+  }
+  tabSignin.addEventListener("click", function(){ setMode("signin"); });
+  tabSignup.addEventListener("click", function(){ setMode("signup"); });
+
+  toggleBtn.addEventListener("click", function(){
+    var showing = passEl.type === "text";
+    passEl.type = showing ? "password" : "text";
+    toggleBtn.textContent = showing ? "Show" : "Hide";
+    toggleBtn.setAttribute("aria-pressed", String(!showing));
+  });
+
+  form.addEventListener("submit", function(e){
+    e.preventDefault();
+    clearMsgs();
+    var email = userEl.value.trim();
+    var pass = passEl.value;
+    if (!email || !pass){
+      showError("Enter an email and password.");
+      return;
+    }
+    submitBtn.disabled = true;
+    var originalLabel = submitBtn.textContent;
+    submitBtn.textContent = "Please wait…";
+
+    var done = function(){ submitBtn.disabled = false; submitBtn.textContent = originalLabel; };
+
+    if (mode === "signup"){
+      client.auth.signUp({
+        email: email,
+        password: pass,
+        options: { data: { display_name: nameEl.value.trim() } }
+      }).then(function(res){
+        done();
+        if (res.error){ showError(res.error.message); return; }
+        showOk("Account created. Check your email to confirm, then sign in.");
+        passEl.value = "";
+        setMode("signin");
+        userEl.value = email;
+      });
+    } else {
+      client.auth.signInWithPassword({ email: email, password: pass }).then(function(res){
+        done();
+        if (res.error){ showError(res.error.message); return; }
+        showOk("Signed in as " + email + ".");
+        passEl.value = "";
+      });
+    }
+  });
+})();
+</script>
+
+</body></html>
